@@ -1,6 +1,8 @@
 package com.bbx2.ikeagoconlibros.item.service;
 
 
+import ch.qos.logback.classic.net.SimpleSocketServer;
+import ch.qos.logback.core.net.SyslogOutputStream;
 import com.bbx2.ikeagoconlibros.item.dto.ItemDTO;
 import com.bbx2.ikeagoconlibros.item.enums.ItemStateEnum;
 import com.bbx2.ikeagoconlibros.item.model.Item;
@@ -37,6 +39,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public ItemDTO getItemById(Long id) {
+        System.err.println("papa "+ id);
         return modelMapper.map(itemRepository.findByIdItem(id), ItemDTO.class);
     }
 
