@@ -1,6 +1,7 @@
 package com.bbx2.ikeagoconlibros.item.controller;
 
 import com.bbx2.ikeagoconlibros.item.dto.ItemDTO;
+import com.bbx2.ikeagoconlibros.item.dto.SimpleItemDTO;
 import com.bbx2.ikeagoconlibros.item.enums.ItemStateEnum;
 import com.bbx2.ikeagoconlibros.item.model.Item;
 import com.bbx2.ikeagoconlibros.item.repository.ItemRepository;
@@ -22,6 +23,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:8080")
 @RequestMapping(path="api")
 public class ItemController {
 
@@ -33,21 +35,32 @@ public class ItemController {
 
 
     @GetMapping("/items")
-    public ResponseEntity<List<ItemDTO>>  getItems() throws Exception {
-        return  new ResponseEntity<List<ItemDTO>>(itemService.getItems(), HttpStatus.OK);
+    public ResponseEntity<List<SimpleItemDTO>>  getItems() throws Exception {
+        return  new ResponseEntity<List<SimpleItemDTO>>(itemService.getItems(), HttpStatus.OK);
 
     }
 
     @GetMapping("/item")
-    public ItemDTO getItem(@RequestParam Long id){
-        return itemService.getItemById(id);
+    public ResponseEntity<ItemDTO> getItem(@RequestParam Long id){
+        return new ResponseEntity<ItemDTO>(itemService.getItemById(id), HttpStatus.OK);
     }
 
 
     @PostMapping( path = "item/save")
         public void saveItem(@RequestBody ItemDTO itemDTO){
-        System.out.println(itemDTO);
         itemService.save(itemDTO);
 
+    }
+
+
+    @GetMapping("/item/allitems")
+    public ResponseEntity<List<ItemDTO>>  getAllItems() throws Exception {
+        return  new ResponseEntity<List<ItemDTO>>(itemService.getAllItems(), HttpStatus.OK);
+
+    }
+
+    @DeleteMapping("item/delete")
+    public void deleteItem(@RequestParam Long id){
+        itemService.deleteById(id);
     }
 }
