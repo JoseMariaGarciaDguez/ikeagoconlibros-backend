@@ -4,6 +4,7 @@ package com.bbx2.ikeagoconlibros.item.service;
 import ch.qos.logback.classic.net.SimpleSocketServer;
 import ch.qos.logback.core.net.SyslogOutputStream;
 import com.bbx2.ikeagoconlibros.item.dto.ItemDTO;
+import com.bbx2.ikeagoconlibros.item.dto.SimpleItemDTO;
 import com.bbx2.ikeagoconlibros.item.enums.ItemStateEnum;
 import com.bbx2.ikeagoconlibros.item.model.Item;
 import com.bbx2.ikeagoconlibros.item.repository.ItemRepository;
@@ -27,11 +28,11 @@ public class ItemServiceImpl implements ItemService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public List<ItemDTO> getItems() {
+    public List<SimpleItemDTO> getItems() {
 
-        List<ItemDTO> result = new ArrayList<>();
+        List<SimpleItemDTO> result = new ArrayList<>();
         itemRepository.findAll().forEach( item -> {
-            result.add(modelMapper.map(item,ItemDTO.class));
+            result.add(modelMapper.map(item,SimpleItemDTO.class));
                 }
         );
         return result;
@@ -52,5 +53,20 @@ public class ItemServiceImpl implements ItemService {
             itemDTO.setCreationDate(new Date(System.currentTimeMillis()));
         }
         itemRepository.save(modelMapper.map(itemDTO, Item.class));
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        itemRepository.delete(itemRepository.findByIdItem(id));
+    }
+
+    @Override
+    public List<ItemDTO> getAllItems() {
+        List<ItemDTO> result = new ArrayList<>();
+        itemRepository.findAll().forEach( item -> {
+                    result.add(modelMapper.map(item,ItemDTO.class));
+                }
+        );
+        return result;
     }
 }

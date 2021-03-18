@@ -9,7 +9,6 @@ public interface ItemRepository
         extends JpaRepository<Item, Long> {
 
     public Item findByPrice(Long price);
-
     public Item findByIdItem(Long IdItem);
 
 }
